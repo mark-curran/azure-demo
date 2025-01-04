@@ -8,8 +8,8 @@ Make sure you've setup the `az` cli and run the az_setup script in the root dire
 
 Then run the Terraform remote state setup script. 
 
-```bash
-sh remote_state_setup.sh
+```shell
+source remote_state_setup.sh
 ```
 
-This will create the remote state in Azure storage if it doesn't already exist.
+This will create the remote state in Azure storage if it doesn't already exist, and export an access key for that state to the shell variable `ARM_ACCESS_KEY`. This variable will allow you to access the remote state.

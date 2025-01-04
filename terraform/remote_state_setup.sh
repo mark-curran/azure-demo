@@ -71,6 +71,13 @@ az storage account create --resource-group $RESOURCE_GROUP_NAME --name $STORAGE_
 echo "Creating blob container called 'tfstate' inside storage account $STORAGE_ACCOUNT_NAME if it doesn't already exist."
 az storage container create --name tfstate --account-name $STORAGE_ACCOUNT_NAME
 
+
 echo ""
 echo "Storage account $STORAGE_ACCOUNT_NAME and blob container 'tfstate' should now exist."
-echo "Resources for Terraform remote state should now exist."
+
+# Get a key to access remote state and export it as an environment variable.
+echo "Getting access key for remote state and exporting to environment variable ARM_ACCESS_KEY."
+ACCOUNT_KEY=$(az storage account keys list --resource-group $RESOURCE_GROUP_NAME --account-name $STORAGE_ACCOUNT_NAME --query '[0].value' -o tsv)
+source ARM_ACCESS_KEY=$ACCOUNT_KEY
+
+echo "Resources for Terraform remote state should now exist and ARM_ACCESS_KEY set."
