@@ -9,6 +9,7 @@ STORAGE_ACCOUNT_FILE="storage_account.json"
 echo "Reading config file: $RESOURCE_GROUP_CONFIG_FILE"
 RESOURCE_GROUP_NAME=$(jq -r '.RESOURCE_GROUP_NAME' $RESOURCE_GROUP_CONFIG_FILE)
 RESOURCE_GROUP_TAG_NAME=$(jq -r '.RESOURCE_GROUP_TAG_NAME' $RESOURCE_GROUP_CONFIG_FILE)
+BLOB_CONTAINER=$(jq -r '.BLOB_CONTAINTER' $RESOURCE_GROUP_CONFIG_FILE)
 
 
 # Check if the storage_account.json file exists
@@ -73,12 +74,12 @@ echo "Creating storage account named $STORAGE_ACCOUNT_NAME if it doesn't already
 az storage account create --resource-group $RESOURCE_GROUP_NAME --name $STORAGE_ACCOUNT_NAME --sku Standard_LRS --encryption-services blob
 
 # # Create a blob container for the remote state
-echo "Creating blob container called 'tfstate' inside storage account $STORAGE_ACCOUNT_NAME if it doesn't already exist."
-az storage container create --name tfstate --account-name $STORAGE_ACCOUNT_NAME
+echo "Creating blob container called $BLOB_CONTAINER inside storage account $STORAGE_ACCOUNT_NAME if it doesn't already exist."
+az storage container create --name $BLOB_CONTAINER --account-name $STORAGE_ACCOUNT_NAME
 
 
 echo ""
-echo "Storage account $STORAGE_ACCOUNT_NAME and blob container 'tfstate' should now exist."
+echo "Storage account $STORAGE_ACCOUNT_NAME and blob container $BLOB_CONTAINER should now exist."
 
 # Get a key to access remote state and export it as an environment variable.
 echo "Getting access key for remote state and exporting to environment variable ARM_ACCESS_KEY."

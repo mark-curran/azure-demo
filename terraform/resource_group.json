@@ -1,4 +1,5 @@
 {
     "RESOURCE_GROUP_NAME": "tfstate",
-    "RESOURCE_GROUP_TAG_NAME": "storage_account_name"
+    "RESOURCE_GROUP_TAG_NAME": "storage_account_name",
+    "BLOB_CONTAINTER": "tfstate"
 }
