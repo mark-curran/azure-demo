@@ -58,6 +58,11 @@ else
     # Store the generated storage account name in the local JSON file
     echo "Storing key value pair $RESOURCE_GROUP_TAG_NAME : $STORAGE_ACCOUNT_NAME in the file  $STORAGE_ACCOUNT_FILE"
     echo "{\"STORAGE_ACCOUNT_NAME\": \"$STORAGE_ACCOUNT_NAME\"}" > $STORAGE_ACCOUNT_FILE
+
+    # Get the location used for the storage account and save that, too.
+    echo "Storing the storage account default location in the file $STORAGE_ACCOUNT_FILE"
+    AZ_SUBSCRIPTION_DEFAULT_LOCATION=$(az configure --list-defaults --query "[?name=='location'].value" -o tsv)
+    jq '. + {"AZ_SUBSCRIPTION_DEFAULT_LOCATION": "'$AZ_SUBSCRIPTION_DEFAULT_LOCATION'"}' $STORAGE_ACCOUNT_FILE > temp.json && mv temp.json $STORAGE_ACCOUNT_FILE
 fi
 
 # Registering the Microsoft.Storage resource provider.

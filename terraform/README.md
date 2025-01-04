@@ -13,3 +13,7 @@ source remote_state_setup.sh
 ```
 
 This will create the remote state in Azure storage if it doesn't already exist, and export an access key for that state to the shell variable `ARM_ACCESS_KEY`. This variable will allow you to access the remote state.
+
+## Details
+
+A resource group scopes everything needed to manage the remote state. This resource group has a tag with the storage account name, which is globally scoped across Azure and needs to be globally unique.
