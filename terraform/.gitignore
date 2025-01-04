@@ -1,1 +1,5 @@
+# Name of the local storage account.
 storage_account.json
+
+# Local .terraform directories
+**/.terraform/*
