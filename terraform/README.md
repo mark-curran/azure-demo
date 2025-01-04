@@ -4,12 +4,12 @@ Sets up the remote terraform state.
 
 ## Setup
 
-Run the remote state setup script
+Make sure you've setup the `az` cli and run the az_setup script in the root directory of this repo.
+
+Then run the Terraform remote state setup script. 
 
 ```bash
-sh setup.sh
+sh remote_state_setup.sh
 ```
 
-## TODO
-
-Move the variable jsons into a different locaiton.
+This will create the remote state in Azure storage if it doesn't already exist.
