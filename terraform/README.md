@@ -19,3 +19,5 @@ This will create the remote state in Azure storage if it doesn't already exist, 
 A resource group scopes everything needed to manage the remote state. This resource group has a tag with the storage account name, which is globally scoped across Azure and needs to be globally unique.
 
 Current method for initialising the backend only supports a User Principal, which is appropriate for private sandbox projects.
+
+Will add default terraform variables to a git ignored filae `terraform.tfvars`.

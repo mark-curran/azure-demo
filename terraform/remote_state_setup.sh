@@ -84,10 +84,16 @@ echo "Storage account $STORAGE_ACCOUNT_NAME and blob container $BLOB_CONTAINER s
 # Get a key to access remote state and export it as an environment variable.
 echo "Getting access key for remote state and exporting to environment variable ARM_ACCESS_KEY."
 ACCOUNT_KEY=$(az storage account keys list --resource-group $RESOURCE_GROUP_NAME --account-name $STORAGE_ACCOUNT_NAME --query '[0].value' -o tsv)
-source ARM_ACCESS_KEY=$ACCOUNT_KEY
+export ARM_ACCESS_KEY=$ACCOUNT_KEY
 
 echo ""
 echo "Resources for Terraform remote state should now exist and variable ARM_ACCESS_KEY is set."
+
+echo ""
+echo "Resetting local terraform variables."
+rm terraform.tfvars
+touch terraform.tfvars
+echo "az_subscription_default_location = \"$AZ_SUBSCRIPTION_DEFAULT_LOCATION\"" >> terraform.tfvars
 
 echo "Initializing Terraform bakend."
 terraform init \

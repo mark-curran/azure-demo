@@ -3,3 +3,6 @@ storage_account.json
 
 # Local .terraform directories
 **/.terraform/*
+
+# Local terraform variables.
+terraform.tfvars
