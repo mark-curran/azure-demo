@@ -10,7 +10,7 @@ echo "Reading config file: $RESOURCE_GROUP_CONFIG_FILE"
 RESOURCE_GROUP_NAME=$(jq -r '.RESOURCE_GROUP_NAME' $RESOURCE_GROUP_CONFIG_FILE)
 RESOURCE_GROUP_TAG_NAME=$(jq -r '.RESOURCE_GROUP_TAG_NAME' $RESOURCE_GROUP_CONFIG_FILE)
 BLOB_CONTAINER=$(jq -r '.BLOB_CONTAINTER' $RESOURCE_GROUP_CONFIG_FILE)
-
+BLOB_KEY_NAME=$(jq -r '.BLOB_KEY_NAME' $RESOURCE_GROUP_CONFIG_FILE)
 
 # Check if the storage_account.json file exists
 echo "Checking if $STORAGE_ACCOUNT_FILE exists."
@@ -86,4 +86,12 @@ echo "Getting access key for remote state and exporting to environment variable 
 ACCOUNT_KEY=$(az storage account keys list --resource-group $RESOURCE_GROUP_NAME --account-name $STORAGE_ACCOUNT_NAME --query '[0].value' -o tsv)
 source ARM_ACCESS_KEY=$ACCOUNT_KEY
 
-echo "Resources for Terraform remote state should now exist and ARM_ACCESS_KEY set."
+echo ""
+echo "Resources for Terraform remote state should now exist and variable ARM_ACCESS_KEY is set."
+
+echo "Initializing Terraform bakend."
+terraform init \
+    -backend-config="resource_group_name=$RESOURCE_GROUP_NAME" \
+    -backend-config="storage_account_name=$STORAGE_ACCOUNT_NAME" \
+    -backend-config="container_name=$BLOB_CONTAINER" \
+    -backend-config="key=$BLOB_KEY_NAME"
