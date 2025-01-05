@@ -17,7 +17,7 @@ resource "azurerm_kubernetes_cluster" "default" {
   location            = azurerm_resource_group.aks_cluster_rg.location
   resource_group_name = azurerm_resource_group.aks_cluster_rg.name
   dns_prefix          = "${random_pet.prefix.id}-k8s"
-  kubernetes_version  = "1.26.3"
+  kubernetes_version  = var.k8s_version
 
   default_node_pool {
     name            = "default"
@@ -28,8 +28,7 @@ resource "azurerm_kubernetes_cluster" "default" {
 
   identity {
     type="UserAssigned"
-    principal_id= azurerm_user_assigned_identity.aks_cluster_uai.principal_id
-    tenant_id = azurerm_user_assigned_identity.aks_cluster_uai.tenant_id
+    identity_ids = [azurerm_user_assigned_identity.aks_cluster_uai.id]
   }
 
   role_based_access_control_enabled = true
